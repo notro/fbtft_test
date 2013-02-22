@@ -1,0 +1,6 @@
+fbtft_test
+==========
+
+This is the beginning of some tests for https://github.com/notro/fbtft
+
+It can also be used as a starting point for writing directly to a framebuffer from Python.
