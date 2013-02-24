@@ -1,6 +1,8 @@
 fbtft_test
 ==========
 
-This is the beginning of some tests for https://github.com/notro/fbtft
+Project for testing Linux Framebuffer drivers.
 
-It can also be used as a starting point for writing directly to a framebuffer from Python.
+Run tests: python test_fb.py
+
+Pause test by pressing a key.
