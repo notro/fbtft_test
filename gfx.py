@@ -164,8 +164,18 @@ class BaseGFX:
 		return (x+(size*6), y)
 
 	def putstr(self, x, y, str, color, size=1):
+		if (x == -1):
+			x = (self.xres - self.str_width(str)*size) / 2
+		if (y == -1):
+			y = (self.yres - 8*size) / 2
 		for c in str:
 			(x, y) = self.putchar(x, y, ord(c), color, size)
+
+	def str_width(self, str, size=1):
+		return len(str)*6*size
+
+	def str_height(self, str, size=1):
+		return 8*size
 
 	def rgb(self, r, b, g):
 		if (self.red.length == 0 and self.green.length == 0 and self.blue.length == 0):
