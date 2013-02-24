@@ -1,7 +1,7 @@
 from time import sleep
-
+import struct
 import termios, fcntl, sys, os
-
+import colorsys
 import fb
 from gfx import Rect
 
@@ -119,6 +119,25 @@ def test_rgb(fb):
 	pause(2)
 
 
+def test_colors(fb):
+	if (fb.bits_per_pixel != 16):
+		return
+	print "  Colors"
+
+	fb.fill(0)
+	fb.fbp.seek(0)
+	step = fb.xres * fb.yres
+	for i in range(0, step):
+			h = i/float(step)
+			rgb = colorsys.hsv_to_rgb(h, 1, 1)
+			red = int(rgb[0] * ((1 << fb.red.length) - 1))
+			green = int(rgb[1] * ((1 << fb.green.length) - 1))
+			blue = int(rgb[2] * ((1 << fb.blue.length) - 1))
+			color = fb.rgb(red, green, blue)
+			fb.fbp.write(struct.pack("H", color))
+	pause(2)
+
+
 
 
 if __name__ == '__main__':
@@ -136,6 +155,8 @@ if __name__ == '__main__':
 	test_border(fb, yellow)
 
 	test_rgb(fb)
+
+	test_colors(fb)
 
 	test_raster(fb, red)
 
