@@ -24,24 +24,30 @@ def pause(secs):
 	oldflags = fcntl.fcntl(fd, fcntl.F_GETFL)
 	fcntl.fcntl(fd, fcntl.F_SETFL, oldflags | os.O_NONBLOCK)
 
-	paused = False
-	t = secs/0.1
-	i = 0
-	while i<t:
-		if keypressed():
-			paused = True
-			break
-		sleep(0.1)
-		i += 1
-
-	if paused:
-		while True:
+	try:
+		ctrlc = False
+		paused = False
+		t = secs/0.1
+		i = 0
+		while i<t:
 			if keypressed():
+				paused = True
 				break
 			sleep(0.1)
+			i += 1
+
+		if paused:
+			while True:
+				if keypressed():
+					break
+				sleep(0.1)
+	except KeyboardInterrupt:
+		ctrlc = True
 
 	termios.tcsetattr(fd, termios.TCSAFLUSH, oldterm)
 	fcntl.fcntl(fd, fcntl.F_SETFL, oldflags)
+	if ctrlc:
+		sys.exit(1)
 
 def msg(fb, s, c, max_size):
 	width = fb.str_width(s)
