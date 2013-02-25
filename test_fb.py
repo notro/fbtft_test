@@ -51,7 +51,7 @@ def pause(secs):
 
 def msg(fb, s, c, max_size):
 	width = fb.str_width(s)
-	for i in range(max_size+1, 1, -1):
+	for i in range(max_size+1, 0, -1):
 		if fb.xres > i*width:
 			fb.putstr(-1, -1, s, c, i)
 			return True
