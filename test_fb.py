@@ -1,8 +1,20 @@
+#!/usr/bin/env python
+"""Framebuffer test program
+
+Usage: python test_fb.py [options]
+
+Options:
+  -d ..., --device=...   Framebuffer device to test, default: /dev/fb0
+  -h, --help              show this help
+"""
+
+import sys
+import getopt
 from time import sleep
 import struct
 import termios, fcntl, sys, os
 import colorsys
-import fb
+from fb import Framebuffer
 from gfx import Rect
 
 
@@ -144,10 +156,25 @@ def test_colors(fb):
 	pause(2)
 
 
+def usage():
+	print __doc__
 
+def main(argv):
+	device = '/dev/fb0'
+	try:
+		opts, args = getopt.getopt(argv, "hd:", ["help", "device="])
+	except getopt.GetoptError:
+		usage()
+		sys.exit(2)
 
-if __name__ == '__main__':
-	fb = fb.Framebuffer('/dev/fb1')
+	for opt, arg in opts:
+		if opt in ("-h", "--help"):
+			usage()
+			sys.exit()
+		elif opt in ("-d", "--device"):
+			device = arg
+
+	fb = Framebuffer(device)
 	print fb
 
 	red = fb.rgb(255,0,0)
@@ -172,3 +199,6 @@ if __name__ == '__main__':
 
 	fb.fill(0)
 	fb.close()
+
+if __name__ == '__main__':
+	main(sys.argv[1:])
