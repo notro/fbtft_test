@@ -69,10 +69,14 @@ class Framebuffer(gfx.BaseGFX):
 		os.close(self.fbfd)
 
 	def blank(self, blank):
-		if blank:
-			fcntl.ioctl(self.fbfd, FBIOBLANK, FB_BLANK_POWERDOWN)
-		else:
-			fcntl.ioctl(self.fbfd, FBIOBLANK, FB_BLANK_UNBLANK)
+		# Blanking is not supported by all drivers
+		try:
+			if blank:
+				fcntl.ioctl(self.fbfd, FBIOBLANK, FB_BLANK_POWERDOWN)
+			else:
+				fcntl.ioctl(self.fbfd, FBIOBLANK, FB_BLANK_UNBLANK)
+		except IOError:
+			pass
 
 	def __str__(self):
 		visual_list = ['MONO01', 'MONO10', 'TRUECOLOR', 'PSEUDOCOLOR', 'DIRECTCOLOR', 'STATIC PSEUDOCOLOR', 'FOURCC']
