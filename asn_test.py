@@ -9,6 +9,8 @@ import subprocess
 import time
 import os
 
+MPG_TEST = "/home/pi/test.mpg"
+
 def call(*args):
 	if subprocess.call(*args) != 0:
 		raise OSError
@@ -39,10 +41,10 @@ def prerequisites():
 		os.chdir("fbtest")
 		call(["make"])
 
-	if not os.path.isfile("~/test.mpg"):
+	if not os.path.isfile(MPG_TEST):
 		print("\nInstalling mplayer\n------------------\n\n")
 		apt_get_install("mplayer")
-		call(["wget", "--directory-prefix=~/", "http://fredrik.hubbe.net/plugger/test.mpg"])
+		call(["wget", "--directory-prefix=%s" % MPG_TEST, "http://fredrik.hubbe.net/plugger/test.mpg"])
 
 	os.chdir(dir)
 
@@ -82,7 +84,7 @@ def fbtest():
 	os.chdir(dir)
 
 def mplayer_test(x, y):
-	sudocall(["mplayer", "-nolirc", "-vo", "fbdev2:/dev/fb1", "-endpos", "8", "-vf", "scale=%s:%s" % (x,y), "~/test.mpg"])
+	sudocall(["mplayer", "-nolirc", "-vo", "fbdev2:/dev/fb1", "-endpos", "8", "-vf", "scale=%s:%s" % (x,y), MPG_TEST])
 
 def startx_test():
 	os.environ['FRAMEBUFFER'] = "/dev/fb1"
