@@ -91,6 +91,11 @@ def startx_test():
 	print "\n\n    To end the startx test, click Off button in lower right corner and press Alt-l (lowercase L) to logout"
 	call(["startx"])
 
+def console_test():
+	sudocall(["con2fbmap", "1", "1"])
+	time.sleep(2)
+	sudocall(["con2fbmap", "1", "0"])
+
 def bl_power_test():
 	file="/sys/class/backlight/%s/bl_power" % dev.name
 	if os.path.isfile(file):
@@ -121,7 +126,7 @@ with FBTFTdevice("adafruit22fb", dev={'gpios' : "reset:25,led:18"}) as dev:
 	fbtest()
 	mplayer_test(176, 220)
 	startx_test()
-
+	console_test()
 	bl_power_test()
 	blank_test()
 
@@ -134,6 +139,7 @@ with FBTFTdevice("sainsmart18fb", dev={'cs':1, 'gpios':"reset:23,dc:24"}) as dev
 	fbtest()
 	mplayer_test(128, 160)
 	startx_test()
+	console_test()
 
 # Rotate
 with FBTFTdevice("sainsmart18fb", drv={'rotate':1}, dev={'cs':1, 'gpios':"reset:23,dc:24"}) as dev:
