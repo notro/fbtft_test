@@ -19,7 +19,8 @@ with FBTFTdevice("itdb28fb") as dev:
 # Rotate
 for rotate in [1,2,3]:
 	with FBTFTdevice("itdb28fb", drv={'rotate':rotate}) as dev:
-		console_test()
+		if rotate == 0:
+			console_test()
 		if rotate == 2:
 			mplayer_test(240, 320)
 		else:

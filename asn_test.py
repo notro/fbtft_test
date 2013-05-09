@@ -15,12 +15,12 @@ ensure_fbtft()
 
 for rotate in [0,1,2,3]:
 	with FBTFTdevice("adafruit22fb", drv={'rotate':rotate}, dev={'gpios' : "reset:25,led:18"}) as dev:
-		console_test()
 		if rotate % 2:
 			mplayer_test(220,176)
 		else:
 			mplayer_test(176, 220)
 		if rotate == 0:
+			console_test()
 			fbtest()
 			bl_power_test(dev)
 			blank_test()
@@ -30,12 +30,12 @@ for rotate in [0,1,2,3]:
 for rotate in [0,1,2,3]:
 
 	with FBTFTdevice("sainsmart18fb", drv={'rotate':rotate}, dev={'cs':1, 'gpios':"reset:23,dc:24"}) as dev:
-		console_test()
 		if rotate % 2:
 			mplayer_test(160,128)
 		else:
 			mplayer_test(128, 160)
 		if rotate == 0:
+			console_test()
 			fbtest()
 			startx_test()
 
