@@ -2,6 +2,8 @@ import subprocess
 import time
 import os
 
+from test_fb import Framebuffer, show_name
+
 MPG_TEST = "/home/pi/test.mpg"
 
 def call(*args):
@@ -59,6 +61,8 @@ class FBTFTdevice:
 #		print " ".join(cmd)
 		sudocall(cmd)
 		sudocall(["modprobe", self.name] + ["%s=%s" %(k,v) for k,v in drv.iteritems()])
+		self.fbdev = Framebuffer("/dev/fb1")
+		show_name(self.fbdev, self.fbdev.rgb(255,0,0))
 
 	def __enter__(self):
 		return self
@@ -67,7 +71,14 @@ class FBTFTdevice:
 		self.remove()
 
 	def remove(self):
-		sudocall(["rmmod", self.name])
+		self.fbdev.close()
+		while True:
+			time.sleep(1)
+			try:
+				sudocall(["rmmod", self.name])
+			except OSError:
+				continue
+			break
 		sudocall(["rmmod", "fbtft_device"])
 
 def lsmod():
