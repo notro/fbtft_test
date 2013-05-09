@@ -2,7 +2,7 @@ import subprocess
 import time
 import os
 
-from test_fb import Framebuffer, show_name
+from test_fb import Framebuffer, show_name, msg
 
 MPG_TEST = "/home/pi/test.mpg"
 
@@ -108,17 +108,27 @@ def console_test():
 def bl_power_test(dev):
 	file="/sys/class/backlight/%s/bl_power" % dev.name
 	if os.path.isfile(file):
+		dev.fbdev.fill(0)
+		c = dev.fbdev.rgb(255,0,0)
+		msg(dev.fbdev, 'Backlight off', c, 2)
 		time.sleep(1)
 		sudoecho(file, "1")
 		time.sleep(2)
+		dev.fbdev.fill(0)
+		msg(dev.fbdev, 'Backlight on', c, 2)
 		sudoecho(file, "0")
 		time.sleep(1)
 
-def blank_test():
+def blank_test(dev):
 	file="/sys/class/graphics/fb1/blank"
 	if os.path.isfile(file):
+		c = dev.fbdev.rgb(255,0,0)
+		dev.fbdev.fill(0)
+		msg(dev.fbdev, 'Blank=4', c, 2)
 		time.sleep(1)
 		sudoecho(file, "4")
+		dev.fbdev.fill(0)
+		msg(dev.fbdev, 'Blank=0', c, 2)
 		time.sleep(2)
 		sudoecho(file, "0")
 		time.sleep(1)

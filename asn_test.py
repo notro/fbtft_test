@@ -23,7 +23,7 @@ for rotate in [0,1,2,3]:
 			console_test()
 			fbtest()
 			bl_power_test(dev)
-			blank_test()
+			blank_test(dev)
 			startx_test()
 
 
