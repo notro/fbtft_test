@@ -81,6 +81,27 @@ class FBTFTdevice:
 			break
 		sudocall(["rmmod", "fbtft_device"])
 
+class ADS7846device:
+	def __init__(self, dev={}, drv={}):
+		cmd = ["modprobe", "--first-time", "ads7846_test"] + ["%s=%s" %(k,v) for k,v in dev.iteritems()]
+#		print " ".join(cmd)
+		sudocall(cmd)
+
+	def __enter__(self):
+		return self
+
+	def __exit__(self, type, value, trace):
+		self.remove()
+
+	def remove(self):
+		while True:
+			try:
+				sudocall(["rmmod", "ads7846_test"])
+			except OSError:
+				time.sleep(2)
+				continue
+			break
+
 def lsmod():
 #	if not "fbtft" in subprocess.check_output("lsmod"):
 	print subprocess.check_output("lsmod")
@@ -95,10 +116,13 @@ def fbtest():
 def mplayer_test(x, y):
 	sudocall(["mplayer", "-nolirc", "-vo", "fbdev2:/dev/fb1", "-endpos", "6", "-vf", "scale=%s:%s" % (x,y), MPG_TEST])
 
-def startx_test():
+def startx_test(wait=True):
 	os.environ['FRAMEBUFFER'] = "/dev/fb1"
 	print "\n\n    To end the startx test, click Off button in lower right corner and press Alt-l (lowercase L) to logout"
-	call(["startx"])
+	if wait:
+		call(["startx"])
+		return
+	return subprocess.Popen(["startx"])
 
 def console_test():
 	sudocall(["con2fbmap", "1", "1"])
