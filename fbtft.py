@@ -39,7 +39,7 @@ def prerequisites():
 	if not os.path.isfile(MPG_TEST):
 		print("\nInstalling mplayer\n------------------\n\n")
 		apt_get_install("mplayer")
-		call(["wget", "--directory-prefix=%s" % MPG_TEST, "http://fredrik.hubbe.net/plugger/test.mpg"])
+		call(["wget", "-O", "%s" % MPG_TEST, "http://fredrik.hubbe.net/plugger/test.mpg"])
 
 	os.chdir(dir)
 
