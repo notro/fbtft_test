@@ -58,9 +58,12 @@ class FBTFTdevice:
 		if not devname: devname = name
 		self.devname = devname
 		cmd = ["modprobe", "--first-time", "fbtft_device", "name=%s" % devname] + ["%s=%s" %(k,v) for k,v in dev.iteritems()]
-#		print " ".join(cmd)
+		print("\n")
+		print " ".join(cmd)
 		sudocall(cmd)
-		sudocall(["modprobe", self.name] + ["%s=%s" %(k,v) for k,v in drv.iteritems()])
+		cmd = ["modprobe", self.name] + ["%s=%s" %(k,v) for k,v in drv.iteritems()]
+		print " ".join(cmd)
+		sudocall(cmd)
 		self.fbdev = Framebuffer("/dev/fb1")
 		show_name(self.fbdev, self.fbdev.rgb(255,0,0))
 
@@ -84,7 +87,8 @@ class FBTFTdevice:
 class ADS7846device:
 	def __init__(self, dev={}, drv={}):
 		cmd = ["modprobe", "--first-time", "ads7846_test"] + ["%s=%s" %(k,v) for k,v in dev.iteritems()]
-#		print " ".join(cmd)
+		print("")
+		print " ".join(cmd)
 		sudocall(cmd)
 
 	def __enter__(self):
@@ -107,6 +111,7 @@ def lsmod():
 	print subprocess.check_output("lsmod")
 
 def fbtest():
+	print("\nfbtest")
 	dir = os.getcwd()
 	os.chdir(os.path.dirname(__file__))
 	os.chdir("..")
@@ -114,17 +119,20 @@ def fbtest():
 	os.chdir(dir)
 
 def mplayer_test(x, y):
+	print("\nMplayer test")
 	sudocall(["mplayer", "-nolirc", "-vo", "fbdev2:/dev/fb1", "-endpos", "6", "-vf", "scale=%s:%s" % (x,y), MPG_TEST])
 
 def startx_test(wait=True):
 	os.environ['FRAMEBUFFER'] = "/dev/fb1"
-	print "\n\n    To end the startx test, click Off button in lower right corner and press Alt-l (lowercase L) to logout"
+	print("\nX test")
+	print "    To end the test, click Off button in lower right corner and press Alt-l (lowercase L) to logout (if screen is too small)"
 	if wait:
 		call(["startx"])
 		return
 	return subprocess.Popen(["startx"])
 
 def console_test():
+	print("\nConsole test")
 	sudocall(["con2fbmap", "1", "1"])
 	time.sleep(2)
 	sudocall(["con2fbmap", "1", "0"])
@@ -132,6 +140,7 @@ def console_test():
 def bl_power_test(dev):
 	file="/sys/class/backlight/%s/bl_power" % dev.name
 	if os.path.isfile(file):
+		print("\nBacklight test")
 		dev.fbdev.fill(0)
 		c = dev.fbdev.rgb(255,0,0)
 		msg(dev.fbdev, 'Backlight off', c, 2)
@@ -146,6 +155,7 @@ def bl_power_test(dev):
 def blank_test(dev):
 	file="/sys/class/graphics/fb1/blank"
 	if os.path.isfile(file):
+		print("\nBlanking test")
 		c = dev.fbdev.rgb(255,0,0)
 		dev.fbdev.fill(0)
 		msg(dev.fbdev, 'Blank=4', c, 2)
