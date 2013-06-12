@@ -18,7 +18,7 @@ for rotate in [0,1,2,3]:
 #for rotate in [0]:
 	with FBTFTdevice("ili9341fb", dev={'rotate':rotate, 'gpios':"reset:25,led:18", 'speed':16000000}) as dev:
 		console_test()
-		ads7846args = { 'debug':0, 'cs':1, 'speed':2000000, 'model':7846, 'x_min':250, 'x_max':3780, 'y_min':160, 'y_max':3930, 'x_plate_ohms':60, 'pressure_max':255, 'gpio_pendown':23, 'keep_vref_on':1 }
+		ads7846args = { 'x_min':250, 'x_max':3780, 'y_min':160, 'y_max':3930, 'x_plate_ohms':60, 'pressure_max':255, 'gpio_pendown':23 }
 		if rotate % 2:
 			ads7846args['swap_xy'] = 1
 		with ADS7846device(dev=ads7846args):

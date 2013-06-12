@@ -22,6 +22,10 @@ def apt_get_install(*args):
 	sudocall(["apt-get", "-y", "install"] + [item for item in args])
 
 def prerequisites():
+	if not os.path.isfile("/usr/bin/xinput"):
+		print("\nInstalling xinput\n------------------\n\n")
+		apt_get_install("xinput")
+
 	dir = os.getcwd()
 	os.chdir(os.path.dirname(__file__))
 	os.chdir("..")
@@ -86,7 +90,11 @@ class FBTFTdevice:
 
 class ADS7846device:
 	def __init__(self, dev={}, drv={}):
-		cmd = ["modprobe", "--first-time", "ads7846_test"] + ["%s=%s" %(k,v) for k,v in dev.iteritems()]
+		cmd = ["modprobe", "--first-time", "ads7846_device"] + ["%s=%s" %(k,v) for k,v in dev.iteritems()]
+		print("")
+		print " ".join(cmd)
+		sudocall(cmd)
+		cmd = ["modprobe", "ads7846"] + ["%s=%s" %(k,v) for k,v in drv.iteritems()]
 		print("")
 		print " ".join(cmd)
 		sudocall(cmd)
@@ -100,7 +108,7 @@ class ADS7846device:
 	def remove(self):
 		while True:
 			try:
-				sudocall(["rmmod", "ads7846_test"])
+				sudocall(["rmmod", "ads7846_device"])
 			except OSError:
 				time.sleep(2)
 				continue
