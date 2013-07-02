@@ -114,6 +114,32 @@ class ADS7846device:
 				continue
 			break
 
+class GPIO_MOUSEdevice:
+	def __init__(self, dev={}, drv={}):
+		cmd = ["modprobe", "--first-time", "gpio_mouse_device"] + ["%s=%s" %(k,v) for k,v in dev.iteritems()]
+		print("")
+		print " ".join(cmd)
+		sudocall(cmd)
+		cmd = ["modprobe", "gpio_mouse"] + ["%s=%s" %(k,v) for k,v in drv.iteritems()]
+		print("")
+		print " ".join(cmd)
+		sudocall(cmd)
+
+	def __enter__(self):
+		return self
+
+	def __exit__(self, type, value, trace):
+		self.remove()
+
+	def remove(self):
+		while True:
+			try:
+				sudocall(["rmmod", "gpio_mouse_device"])
+			except OSError:
+				time.sleep(2)
+				continue
+			break
+
 def lsmod():
 #	if not "fbtft" in subprocess.check_output("lsmod"):
 	print subprocess.check_output("lsmod")
