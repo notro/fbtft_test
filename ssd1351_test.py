@@ -18,3 +18,7 @@ for rotate in [0]:
 		mplayer_test(128,128)
 		fbtest()
 		blank_test(dev)
+
+for rotate in [0]:
+	with FBTFTdevice("flexfb", dev={ 'rotate':rotate, 'speed':20000000, 'gpios':"reset:24,dc:25" }, drv={ 'chip':'ssd1351' }) as dev:
+		mplayer_test(128, 128)
