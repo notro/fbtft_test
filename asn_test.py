@@ -73,5 +73,10 @@ for rotate in [0]:
 
 raw_input("Nokia 3310, move chip select :")
 
-with FBTFTdevice("nokia3310fb", dev={ 'cs':1, 'gpios':'reset:22,dc:21,led:17' }) as dev:
+if get_board_revision() == 1:
+	P1_13 = 21
+else:
+	P1_13 = 27
+
+with FBTFTdevice("nokia3310fb", dev={ 'cs':1, 'gpios':"reset:22,dc:%d,led:17" % P1_13 }) as dev:
 	console_test()

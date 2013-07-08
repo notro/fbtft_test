@@ -144,6 +144,20 @@ def lsmod():
 #	if not "fbtft" in subprocess.check_output("lsmod"):
 	print subprocess.check_output("lsmod")
 
+# by BlackJack
+def get_revision():
+	with open('/proc/cpuinfo') as lines:
+		for line in lines:
+			if line.startswith('Revision'):
+				return int(line[line.index(':') + 1:], 16) & 0xFFFF
+	raise RuntimeError('No revision found.')
+
+def get_board_revision():
+	revision = get_revision()
+	if revision in (2, 3):
+		return 1
+	return 2
+
 def fbtest():
 	print("\nfbtest")
 	dir = os.getcwd()
