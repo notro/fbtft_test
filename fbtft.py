@@ -68,6 +68,7 @@ class FBTFTdevice:
 		cmd = ["modprobe", self.name] + ["%s=%s" %(k,v) for k,v in drv.iteritems()]
 		print " ".join(cmd)
 		sudocall(cmd)
+		time.sleep(0.5)
 		self.fbdev = Framebuffer("/dev/fb1")
 		show_name(self.fbdev, self.fbdev.rgb(255,0,0))
 
