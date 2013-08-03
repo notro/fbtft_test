@@ -44,11 +44,10 @@ for rotate in [0]:
 
 
 for rotate in [0,1,2,3]:
-	with FBTFTdevice("sainsmart18fb", dev={ 'rotate':rotate, 'cs':1, 'gpios':"reset:23,dc:24" }) as dev:
+	with FBTFTdevice("sainsmart18", dev={ 'rotate':rotate, 'cs':1, 'gpios':"reset:23,dc:24" }, autoload=True) as dev:
 		if rotate == 0:
 			console_test()
 			fbtest()
-#			blank_test(dev)
 			startx_test()
 		if rotate % 2:
 			mplayer_test(160,128)
@@ -78,5 +77,5 @@ if get_board_revision() == 1:
 else:
 	P1_13 = 27
 
-with FBTFTdevice("nokia3310fb", dev={ 'cs':1, 'gpios':"reset:22,dc:%d,led:17" % P1_13 }) as dev:
+with FBTFTdevice("nokia3310", dev={ 'cs':1, 'gpios':"reset:22,dc:%d,led:17" % P1_13 }, autoload=True) as dev:
 	console_test()

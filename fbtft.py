@@ -57,18 +57,20 @@ def ensure_fbtft():
 	sudocall(["modprobe", "fbtft"])
 
 class FBTFTdevice:
-	def __init__(self, name, dev={}, drv={}, devname=""):
+	def __init__(self, name, dev={}, drv={}, devname="", autoload=False):
 		self.name = name
+		self.autoload = autoload
 		if not devname: devname = name
 		self.devname = devname
 		cmd = ["modprobe", "--first-time", "fbtft_device", "name=%s" % devname] + ["%s=%s" %(k,v) for k,v in dev.iteritems()]
 		print("\n")
 		print " ".join(cmd)
 		sudocall(cmd)
-		cmd = ["modprobe", self.name] + ["%s=%s" %(k,v) for k,v in drv.iteritems()]
-		print " ".join(cmd)
-		sudocall(cmd)
-		time.sleep(0.5)
+		if not self.autoload:
+			cmd = ["modprobe", self.name] + ["%s=%s" %(k,v) for k,v in drv.iteritems()]
+			print " ".join(cmd)
+			sudocall(cmd)
+		time.sleep(1)
 		self.fbdev = Framebuffer("/dev/fb1")
 		show_name(self.fbdev, self.fbdev.rgb(255,0,0))
 
@@ -80,14 +82,16 @@ class FBTFTdevice:
 
 	def remove(self):
 		self.fbdev.close()
-		while True:
-			time.sleep(1)
-			try:
-				sudocall(["rmmod", self.name])
-			except OSError:
-				continue
-			break
+		if not self.autoload:
+			while True:
+				time.sleep(1)
+				try:
+					sudocall(["rmmod", self.name])
+				except OSError:
+					continue
+				break
 		sudocall(["rmmod", "fbtft_device"])
+		time.sleep(1)
 
 class ADS7846device:
 	def __init__(self, dev={}, drv={}):
