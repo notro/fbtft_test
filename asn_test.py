@@ -14,7 +14,7 @@ ensure_fbtft()
 
 
 for rotate in [0,1,2,3]:
-	with FBTFTdevice("adafruit22fb", dev={ 'rotate':rotate, 'gpios' : "reset:25,led:18" }) as dev:
+	with FBTFTdevice("adafruit22", dev={ 'rotate':rotate, 'gpios' : "reset:25,led:18" }, autoload=True) as dev:
 		if rotate == 0:
 			console_test()
 			fbtest()
