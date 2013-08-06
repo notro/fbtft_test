@@ -23,7 +23,7 @@ GPIOS = "reset:17,dc:%d,wr:%d,cs:%d,db00:9,db01:11,db02:18,db03:23,db04:24,db05:
 
 
 for rotate in [0,1,2,3]:
-	with FBTFTdevice("itdb28fb", dev={ 'rotate':rotate, 'gpios':GPIOS }) as dev:
+	with FBTFTdevice("itdb28", dev={ 'rotate':rotate, 'gpios':GPIOS }, autoload=True) as dev:
 		if rotate == 0:
 			console_test()
 			fbtest()
