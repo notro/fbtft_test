@@ -15,8 +15,7 @@ os.environ['DISPLAY'] = ":0"
 
 
 for rotate in [0,1,2,3]:
-#for rotate in [0]:
-	with FBTFTdevice("ili9341fb", dev={'rotate':rotate, 'gpios':"reset:25,led:18", 'speed':16000000}) as dev:
+	with FBTFTdevice("mi0283qt-9a", dev={ 'rotate':rotate, 'speed':16000000 }, autoload=True) as dev:
 		console_test()
 		if rotate == 0:
 			fbtest()
