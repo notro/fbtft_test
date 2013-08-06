@@ -15,8 +15,7 @@ os.environ['DISPLAY'] = ":0"
 
 
 for rotate in [0,1,2,3]:
-#for rotate in [0]:
-	with FBTFTdevice("hy28afb", dev={'rotate':rotate, 'gpios':"reset:25,led:18"}) as dev:
+	with FBTFTdevice("hy28a", dev={'rotate':rotate, 'gpios':"reset:25,led:18"}, autoload=True) as dev:
 		console_test()
 		ads7846args = { 'x_min':230, 'x_max':3850, 'y_min':190, 'y_max':3850, 'x_plate_ohms':60, 'pressure_max':255, 'gpio_pendown':17 }
 		if rotate % 2:
