@@ -1,6 +1,7 @@
 import subprocess
 import time
 import os
+import glob
 
 from test_fb import Framebuffer, show_name, msg
 
@@ -191,8 +192,9 @@ def console_test():
 	sudocall(["con2fbmap", "1", "0"])
 
 def bl_power_test(dev):
-	file="/sys/class/backlight/%s/bl_power" % dev.name
-	if os.path.isfile(file):
+	dirs = glob.glob("/sys/class/backlight/*/bl_power")
+	if dirs:
+		file = dirs[0]
 		print("\nBacklight test")
 		dev.fbdev.fill(0)
 		c = dev.fbdev.rgb(255,0,0)
