@@ -15,7 +15,7 @@ else:
 	P1_13 = 27
 
 for rotate in [0]:
-	with FBTFTdevice("ssd1351fb", dev={ 'rotate':rotate }) as dev:
+	with FBTFTdevice("pioled", dev={ 'rotate':rotate }, autoload=True) as dev:
 		console_test()
 		with GPIO_MOUSEdevice(dev={ 'pullup':1, 'polarity':1, 'up':23, 'down':17, 'left':18, 'right':P1_13, 'bleft':22 }):
 			startx_test()
