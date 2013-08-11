@@ -92,7 +92,7 @@ class FBTFTdevice:
 					continue
 				break
 		sudocall(["rmmod", "fbtft_device"])
-		time.sleep(1)
+		time.sleep(2)
 
 class ADS7846device:
 	def __init__(self, dev={}, drv={}):
