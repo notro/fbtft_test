@@ -11,11 +11,25 @@ prerequisites()
 ensure_no_spi()
 ensure_fbtft()
 
-GPIOS = "reset:2,dc:31,wr:29,db00:7,db01:8,db02:25,db03:24,db04:23,db05:18,db06:15,db07:14,db08:11,db09:9,db10:10,db11:22,db12:27,db13:17,db14:4,db15:3"
+
+#  Adapter board
+#  -------------
+#      WR      RESET    LED-A
+#    GPIO31    GPIO29    3V3
+
+#  P5 header
+#  ---------
+#  Facing RCA, upside
+#  
+#  GND  GPIO31  GPIO29  3V3
+#  GND  GPIO30  GPIO28  5V0
+
+
+GPIOS = "reset:29,dc:2,wr:31,db00:11,db01:9,db02:10,db03:22,db04:27,db05:17,db06:4,db07:3,db08:7,db09:8,db10:25,db11:24,db12:23,db13:18,db14:14,db15:15"
+
 
 for rotate in [0,1,2,3]:
-#for rotate in [0]:
-	with FBTFTdevice("sainsmart32fb", dev={ 'rotate':rotate, 'gpios':GPIOS }, drv={ 'speed':1 }) as dev:
+	with FBTFTdevice("sainsmart32", dev={ 'rotate':rotate, 'gpios':GPIOS }, autoload=True) as dev:
 		console_test()
 		if rotate == 0:
 			fbtest()
