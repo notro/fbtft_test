@@ -13,10 +13,10 @@ ensure_fbtft()
 
 os.environ['DISPLAY'] = ":0"
 
+GPIOS = "reset:25,dc:24"
 
 for rotate in [0,1,2,3]:
-#for rotate in [0]:
-	with FBTFTdevice("sainsmart32fb", devname="sainsmart32spifb", dev={'rotate':rotate, 'gpios':"reset:25,dc:24"}) as dev:
+	with FBTFTdevice("sainsmart32_spi", dev={ 'rotate':rotate, 'gpios':GPIOS }, autoload=True) as dev:
 		console_test()
 #		ads7846args = { 'debug':2, 'cs':1, 'speed':2000000, 'model':7846, 'x_min':230, 'x_max':3900, 'y_min':200, 'y_max':3700, 'x_plate_ohms':80, 'pressure_max':255, 'gpio_pendown':23, 'keep_vref_on':1 }
 #		if rotate % 2:

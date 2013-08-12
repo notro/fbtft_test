@@ -1,6 +1,6 @@
 '''
 Test code for protoboard with:
-* Sainsmart 3.2" SPI
+* Sainsmart 3.2"
 '''
 
 from fbtft import *
