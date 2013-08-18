@@ -165,7 +165,8 @@ def get_board_revision():
 	return 2
 
 def fbtest():
-	print("\nfbtest")
+	print("\nfbtest is diabled")
+	return
 	dir = os.getcwd()
 	os.chdir(os.path.dirname(__file__))
 	os.chdir("..")
