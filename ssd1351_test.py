@@ -15,7 +15,7 @@ else:
 	P1_13 = 27
 
 for rotate in [0]:
-	with FBTFTdevice("pioled", dev={ 'rotate':rotate }, autoload=True) as dev:
+	with FBTFTdevice("pioled", dev={ 'rotate':rotate, 'debug':get_debug() }, autoload=True) as dev:
 		console_test()
 		with GPIO_MOUSEdevice(dev={ 'pullup':1, 'polarity':1, 'up':23, 'down':17, 'left':18, 'right':P1_13, 'bleft':22 }):
 			startx_test()
@@ -24,5 +24,5 @@ for rotate in [0]:
 		blank_test(dev)
 
 for rotate in [0]:
-	with FBTFTdevice("flexfb", dev={ 'rotate':rotate, 'speed':20000000, 'gpios':"reset:24,dc:25" }, drv={ 'chip':'ssd1351' }) as dev:
+	with FBTFTdevice("flexfb", dev={ 'rotate':rotate, 'speed':20000000, 'gpios':"reset:24,dc:25", 'debug':get_debug() }, drv={ 'chip':'ssd1351' }) as dev:
 		mplayer_test(128, 128)

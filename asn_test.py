@@ -14,7 +14,7 @@ ensure_fbtft()
 
 
 for rotate in [0,90,180,270]:
-	with FBTFTdevice("adafruit22", dev={ 'rotate':rotate, 'gpios' : "reset:25,led:18" }, autoload=True) as dev:
+	with FBTFTdevice("adafruit22", dev={ 'rotate':rotate, 'gpios' : "reset:25,led:18", 'debug':get_debug()}, autoload=True) as dev:
 		if rotate == 0:
 			console_test()
 			fbtest()
@@ -36,7 +36,7 @@ for rotate in [0]:
 		pass
 	elif rotate == 270:
 		pass
-	with FBTFTdevice("flexfb", dev={ 'rotate':rotate, 'gpios':"reset:25,led:18" }, drv=flexfb_drv_args) as dev:
+	with FBTFTdevice("flexfb", dev={ 'rotate':rotate, 'gpios':"reset:25,led:18", 'debug':get_debug()}, drv=flexfb_drv_args) as dev:
 		if rotate in [0,180]:
 			mplayer_test(176, 220)
 		else:

@@ -15,7 +15,7 @@ os.environ['DISPLAY'] = ":0"
 
 
 for rotate in [0,90,180,270]:
-	with FBTFTdevice("mi0283qt-9a", dev={ 'rotate':rotate, 'speed':16000000 }, autoload=True) as dev:
+	with FBTFTdevice("mi0283qt-9a", dev={ 'rotate':rotate, 'speed':16000000, 'debug':get_debug() }, autoload=True) as dev:
 		console_test()
 		if rotate == 0:
 			fbtest()
@@ -46,7 +46,7 @@ for rotate in [0,270]:
 		flexfb_drv_args = { 'chip':'ili9341', 'buswidth':9 }
 	elif rotate == 270:
 		flexfb_drv_args = { 'chip':'ili9341', 'buswidth':9, 'init':'-1,0x28,-2,20,-1,0xCF,0x00,0x83,0x30,-1,0xED,0x64,0x03,0x12,0x81,-1,0xE8,0x85,0x01,0x79,-1,0xCB,0x39,0x2c,0x00,0x34,0x02,-1,0xF7,0x20,-1,0xEA,0x00,0x00,-1,0xC0,0x26,-1,0xC1,0x11,-1,0xC5,0x35,0x3E,-1,0xC7,0xBE,-1,0xB1,0x00,0x1B,-1,0xB6,0x0a,0x82,0x27,0x00,-1,0xB7,0x07,-1,0x3A,0x55,-1,0x36,0x38,-1,0x11,-2,120,-1,0x29,-2,20,-3' }
-	with FBTFTdevice("flexfb", dev={ 'rotate':rotate, 'gpios':"reset:25,led:18", 'speed':16000000 }, drv=flexfb_drv_args) as dev:
+	with FBTFTdevice("flexfb", dev={ 'rotate':rotate, 'gpios':"reset:25,led:18", 'speed':16000000, 'debug':get_debug() }, drv=flexfb_drv_args) as dev:
 		if rotate in [0,180]:
 			mplayer_test(240, 320)
 		else:

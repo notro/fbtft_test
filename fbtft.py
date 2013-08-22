@@ -7,6 +7,9 @@ from test_fb import Framebuffer, show_name, msg
 
 MPG_TEST = "/home/pi/test.mpg"
 
+def get_debug():
+	return 3
+
 def call(*args):
 	if subprocess.call(*args) != 0:
 		raise OSError
@@ -202,6 +205,8 @@ def bl_power_test(dev):
 		msg(dev.fbdev, 'Backlight off', c, 2)
 		time.sleep(1)
 		sudoecho(file, "1")
+		dev.fbdev.fill(0)
+		msg(dev.fbdev, 'OFF', c, 2)
 		time.sleep(2)
 		dev.fbdev.fill(0)
 		msg(dev.fbdev, 'Backlight on', c, 2)

@@ -14,7 +14,7 @@ ensure_fbtft()
 os.environ['DISPLAY'] = ":0"
 
 for rotate in [180,270,0,90]:
-	with FBTFTdevice("itdb28_spi", dev={'rotate':rotate, 'gpios':"reset:25,dc:24,led:18"}, autoload=True) as dev:
+	with FBTFTdevice("itdb28_spi", dev={'rotate':rotate, 'gpios':"reset:25,dc:24,led:18", 'debug':get_debug()}, autoload=True) as dev:
 		console_test()
 		ads7846args = { 'x_min':230, 'x_max':3900, 'y_min':200, 'y_max':3700, 'x_plate_ohms':80, 'pressure_max':255, 'gpio_pendown':17 }
 		if rotate % 180:
