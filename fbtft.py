@@ -61,7 +61,7 @@ def ensure_fbtft():
 	sudocall(["modprobe", "fbtft"])
 
 class FBTFTdevice:
-	def __init__(self, name, dev={}, drv={}, devname="", autoload=False):
+	def __init__(self, name, dev={}, drv={}, devname="", autoload=False, wait=1.0):
 		self.name = name
 		self.autoload = autoload
 		if not devname: devname = name
@@ -74,7 +74,7 @@ class FBTFTdevice:
 			cmd = ["modprobe", self.name] + ["%s=%s" %(k,v) for k,v in drv.iteritems()]
 			print " ".join(cmd)
 			sudocall(cmd)
-		time.sleep(1)
+		time.sleep(wait)
 		self.fbdev = Framebuffer("/dev/fb1")
 		show_name(self.fbdev, self.fbdev.rgb(255,0,0))
 
