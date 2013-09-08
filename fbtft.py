@@ -213,6 +213,29 @@ def bl_power_test(dev):
 		sudoecho(file, "0")
 		time.sleep(1)
 
+def bl_pwm_test(dev):
+	dirs = glob.glob("/sys/class/backlight/*/")
+	if dirs:
+		print("\nBacklight brightness test")
+		with open("%smax_brightness" % dirs[0]) as f:
+			max_brightness = int(f.read())
+		try:
+			with open("%sactual_brightness" % dirs[0]) as f:
+				actual_brightness = int(f.read())
+		except IOError:
+			with open("%sbrightness" % dirs[0]) as f:
+				actual_brightness = int(f.read())
+		file = "%sbrightness" % dirs[0]
+		dev.fbdev.fill(0)
+		c = dev.fbdev.rgb(255,0,0)
+		msg(dev.fbdev, "Brightness    ", c, 2)
+		for i in range(0, max_brightness, 10) + [actual_brightness]:
+			msg(dev.fbdev, "           %s" % (3*chr(255)), 0, 2)
+			msg(dev.fbdev, "           %3d" % i, c, 2)
+			sudoecho(file, "%d" % i)
+			time.sleep(0.5)
+		time.sleep(1)
+
 def blank_test(dev):
 	file="/sys/class/graphics/fb1/blank"
 	if os.path.isfile(file):
