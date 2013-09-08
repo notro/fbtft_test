@@ -176,9 +176,9 @@ def fbtest():
 	sudocall(["./fbtest/fbtest", "-f", "/dev/fb1"])
 	os.chdir(dir)
 
-def mplayer_test(x, y):
+def mplayer_test(x, y, playlength=6):
 	print("\nMplayer test")
-	sudocall(["mplayer", "-nolirc", "-vo", "fbdev2:/dev/fb1", "-endpos", "6", "-vf", "scale=%s:%s" % (x,y), MPG_TEST])
+	sudocall(["mplayer", "-nolirc", "-vo", "fbdev2:/dev/fb1", "-endpos", "%d" % playlength, "-vf", "scale=%s:%s" % (x,y), MPG_TEST])
 
 def startx_test(wait=True):
 	os.environ['FRAMEBUFFER'] = "/dev/fb1"
