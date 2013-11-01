@@ -94,6 +94,7 @@ class FBTFTdevice:
 				except OSError:
 					continue
 				break
+		time.sleep(2)
 		sudocall(["rmmod", "fbtft_device"])
 		time.sleep(2)
 
