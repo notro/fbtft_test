@@ -34,16 +34,16 @@ def prerequisites():
 	os.chdir(os.path.dirname(__file__))
 	os.chdir("..")
 
-	if not os.path.isdir("fbtest/"):
-		print("\nInstalling fbtest\n-----------------\n\n")
-		sudocall(["apt-get", "-y", "install", "libnetpbm10-dev"])
-		call(["git", "clone", "https://git.kernel.org/pub/scm/linux/kernel/git/geert/fbtest.git"])
-		text = open("fbtest/fb.c").read()
-		with open("fbtest/fb.c", "w") as f:
-			f.write(text.replace("#include <asm/page.h>", "/* #include <asm/page.h> */"))
-		os.chdir("fbtest")
-		call(["make"])
-
+#	if not os.path.isdir("fbtest/"):
+#		print("\nInstalling fbtest\n-----------------\n\n")
+#		sudocall(["apt-get", "-y", "install", "libnetpbm10-dev"])
+#		call(["git", "clone", "https://git.kernel.org/pub/scm/linux/kernel/git/geert/fbtest.git"])
+#		text = open("fbtest/fb.c").read()
+#		with open("fbtest/fb.c", "w") as f:
+#			f.write(text.replace("#include <asm/page.h>", "/* #include <asm/page.h> */"))
+#		os.chdir("fbtest")
+#		call(["make"])
+#
 	if not os.path.isfile(MPG_TEST):
 		print("\nInstalling mplayer\n------------------\n\n")
 		apt_get_install("mplayer")
